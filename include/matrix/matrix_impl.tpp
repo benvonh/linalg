@@ -4,51 +4,37 @@
 #include "matrix.hpp"
 
 template<size_t M, size_t N, typename T>
-Matrix<M, N, T> Matrix<M, N, T>::Eye()
+constexpr Matrix<M, N, T> Matrix<M, N, T>::eye()
 {
-    assert(M == N);
-    Matrix<M, N, T> obj;
+    MATRIX_CHECK_SQUARE();
+    Matrix<M, N, T> obj{};
     
-    for (size_t i = 0; i < M; i++)
+    for (size_t ij = 0; ij < M; ij++)
     {
-        obj(i, i) = 1;
+        obj(ij, ij) = 1;
     }
     return obj;
 }
 
 template<size_t M, size_t N, typename T>
-constexpr size_t Matrix<M, N, T>::GetRows() const
+constexpr size_t Matrix<M, N, T>::idx(size_t i, size_t j)
 {
-    return c_Rows;
+    return j + i * N;
 }
 
 template<size_t M, size_t N, typename T>
-constexpr size_t Matrix<M, N, T>::GetCols() const
+Matrix<N, M, T> Matrix<M, N, T>::Transpose() const
 {
-    return c_Cols;
-}
-    
-template<size_t M, size_t N, typename T>
-Matrix<M, N, T>& Matrix<M, N, T>::Transpose()
-{
-    assert(M == N);
-    
+    Matrix<N, M, T> obj;
+
     for (size_t i = 0; i < M; i++)
     {
-        for (size_t j = i + 1; j < N; j++)
+        for (size_t j = 0; j < N; j++)
         {
-            T tmp = m_Data[i][j];
-            m_Data[i][j] = m_Data[j][i];
-            m_Data[j][i] = tmp;
+            obj(j, i) = m_Data[idx(i, j)];
         }
     }
-    return *this;
+    return obj;
 }
-
-// template<size_t M, size_t N, typename T>
-// Matrix<M, N, T> Matrix<M, N, T>::Row(size_t row)
-// {
-//     return Matrix<1, N, T>(m_Data[i]);
-// }
 
 #endif/*__MATRIX_IMPL_TPP__*/

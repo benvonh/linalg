@@ -2,15 +2,22 @@
 
 int main()
 {
-    Matrix<3, 3> A = Matrix<3, 3>::Eye();
+    Matrix<2, 2, float> A{}, B{};
 
-    Matrix<3, 3> B{};
-    B(1, 1) = 99;
+    A[0] = 2;
+    A[2] = 3;
 
-    std::cout << A * B;
-    std::cout << (A + B).GetRows() << '\n';
+    std::cout << A << '\n';
 
-    A = B;
-    std::cout << A * B;
-    std::cout << (A + B).GetRows() << '\n';
+    B = A;
+
+    std::cout << B << '\n';
+
+    auto C = B.Transpose();
+
+    std::cout << C << '\n';
+
+    auto D = A * C;
+
+    std::cout << D << '\n';
 }
