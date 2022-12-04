@@ -3,10 +3,12 @@
 
 #include "matrix.hpp"
 
+namespace linalg
+{
 template<size_t M, size_t N, typename T>
 constexpr Matrix<M, N, T> Matrix<M, N, T>::eye()
 {
-    MATRIX_CHECK_SQUARE();
+    MATRIX_CHECK_SQUARE;
     Matrix<M, N, T> obj{};
     
     for (size_t ij = 0; ij < M; ij++)
@@ -36,5 +38,6 @@ Matrix<N, M, T> Matrix<M, N, T>::Transpose() const
     }
     return obj;
 }
+};
 
 #endif/*__MATRIX_IMPL_TPP__*/

@@ -3,39 +3,34 @@
 
 #include "matrix.hpp"
 
+namespace linalg
+{
 template<size_t M, size_t N, typename T>
 T& Matrix<M, N, T>::operator[](size_t idx)
 {
-    MATRIX_CHECK_INDEX();
+    MATRIX_CHECK_INDEX;
     return m_Data[idx];
 }
 
 template<size_t M, size_t N, typename T>
 T& Matrix<M, N, T>::operator()(size_t i, size_t j)
 {
-    MATRIX_CHECK_BOUNDS();
+    MATRIX_CHECK_BOUNDS;
     return m_Data[idx(i, j)];
 }
 
 template<size_t M, size_t N, typename T>
 const T& Matrix<M, N, T>::operator[](size_t idx) const
 {
-    MATRIX_CHECK_INDEX();
+    MATRIX_CHECK_INDEX;
     return m_Data[idx];
 }
 
 template<size_t M, size_t N, typename T>
 const T& Matrix<M, N, T>::operator()(size_t i, size_t j) const
 {
-    MATRIX_CHECK_BOUNDS();
+    MATRIX_CHECK_BOUNDS;
     return m_Data[idx(i, j)];
-}
-
-template<size_t M, size_t N, typename T>
-Matrix<M, N, T>& Matrix<M, N, T>::operator=(Matrix<M, N, T> obj) noexcept
-{
-    swap(*this, obj);
-    return *this;
 }
 
 template<size_t M, size_t N, typename T>
@@ -61,8 +56,8 @@ Matrix<M, N, T>& Matrix<M, N, T>::operator-=(const Matrix<M, N, T>& rhs)
 template<size_t M, size_t N, typename T>
 Matrix<M, N, T>& Matrix<M, N, T>::operator*=(const Matrix<M, N, T>& rhs)
 {
-    MATRIX_CHECK_SQUARE();
-    Matrix<M, N, T> cpy;
+    MATRIX_CHECK_SQUARE;
+    Matrix<M, N, T> cpy = *this;
 
     for (size_t i = 0; i < M; i++)
     {
@@ -78,12 +73,6 @@ Matrix<M, N, T>& Matrix<M, N, T>::operator*=(const Matrix<M, N, T>& rhs)
         }
     }
     return *this;
-}
-
-template<size_t M, size_t N, typename T>
-void swap(Matrix<M, N, T>& lhs, Matrix<M, N, T>& rhs)
-{
-    std::swap(lhs.m_Data, rhs.m_Data);
 }
 
 template<size_t M, size_t N, typename T>
@@ -139,13 +128,35 @@ bool operator!=(const Matrix<M, N, T>& lhs, const Matrix<M, N, T>& rhs)
 template<size_t M, size_t N, typename T>
 std::ostream& operator<<(std::ostream& os, const Matrix<M, N, T>& obj)
 {
-    os << "[ ";
-    for (size_t idx = 0; idx < M * N; idx++)
+    long max_num = static_cast<long>(
+        *std::max_element(
+            std::cbegin(obj.m_Data),
+            std::cend(obj.m_Data),
+            [](const T& a, const T& b) -> bool
+            {
+                return std::abs(a) < std::abs(b);
+            }
+        )
+    );
+    long digits = static_cast<long>(max_num < 0);
+
+    do { digits++; } while (max_num /= 10);
+
+    long width = digits + MATRIX_PRINT_PRECISION + 1;
+    os << std::setprecision(MATRIX_PRINT_PRECISION) << std::fixed;
+
+    for (size_t i = 0; i < M; i++)
     {
-        os << obj[idx];
-        os << (((idx + 1) % N) ? ", " : " ]\n[ ");
+        os << "[ ";
+
+        for (size_t j = 0; j < N; j++)
+        {
+            os << std::setw(width) << obj(i, j);
+            os << (j != N - 1 ? ", " : " ]\n");
+        }
     }
     return os;
 }
+};
 
 #endif/*__MATRIX_OPER_TPP__*/
