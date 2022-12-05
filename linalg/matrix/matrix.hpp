@@ -14,7 +14,7 @@
 #ifndef MATRIX_PRINT_PRECISION
     #define MATRIX_PRINT_PRECISION 2
 #elif MATRIX_PRINT_PRECISION < 0
-    #error "MATRIX_PRINT_PRECISION must be not be negative"
+    #error MATRIX_PRINT_PRECISION must be not be negative
 #endif
 
 #define __matrix_assert(expr, except, msg) \
@@ -28,19 +28,15 @@
 #define __matrix_assert_index() \
         __matrix_assert(idx < M * N, std::out_of_range, \
             "Index (" << idx << ") out of range for " \
-            "dimension (" << M << ", " << N << ")" \
-        )
+            "dimension (" << M << ", " << N << ')')
 
 #define __matrix_assert_bounds() \
         __matrix_assert(i < M && j < N, std::out_of_range, \
             "Index (" << i << ", " << j << ") out of range for " \
-            "dimension (" << M << ", " << N << ")" \
-        )
+            "dimension (" << M << ", " << N << ')')
 
 #define __matrix_assert_square() \
-        __matrix_assert(M == N, std::logic_error, \
-            "Dimension (" << M << ", " << N << ") not a square matrix" \
-        )
+        static_assert(M == N, "Dimension not a square matrix")
 
 namespace linalg
 {
