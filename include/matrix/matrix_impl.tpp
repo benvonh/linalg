@@ -8,12 +8,12 @@ namespace linalg
 template<size_t M, size_t N, typename T>
 constexpr Matrix<M, N, T> Matrix<M, N, T>::eye()
 {
-    MATRIX_CHECK_SQUARE;
+    __matrix_assert_square();
     Matrix<M, N, T> obj{};
     
-    for (size_t ij = 0; ij < M; ij++)
+    for (size_t i = 0; i < M; i++)
     {
-        obj(ij, ij) = 1;
+        obj(i, i) = 1;
     }
     return obj;
 }

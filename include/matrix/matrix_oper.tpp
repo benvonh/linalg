@@ -8,28 +8,28 @@ namespace linalg
 template<size_t M, size_t N, typename T>
 T& Matrix<M, N, T>::operator[](size_t idx)
 {
-    MATRIX_CHECK_INDEX;
+    __matrix_assert_index();
     return m_Data[idx];
 }
 
 template<size_t M, size_t N, typename T>
 T& Matrix<M, N, T>::operator()(size_t i, size_t j)
 {
-    MATRIX_CHECK_BOUNDS;
+    __matrix_assert_bounds();
     return m_Data[idx(i, j)];
 }
 
 template<size_t M, size_t N, typename T>
 const T& Matrix<M, N, T>::operator[](size_t idx) const
 {
-    MATRIX_CHECK_INDEX;
+    __matrix_assert_index();
     return m_Data[idx];
 }
 
 template<size_t M, size_t N, typename T>
 const T& Matrix<M, N, T>::operator()(size_t i, size_t j) const
 {
-    MATRIX_CHECK_BOUNDS;
+    __matrix_assert_bounds();
     return m_Data[idx(i, j)];
 }
 
@@ -56,7 +56,7 @@ Matrix<M, N, T>& Matrix<M, N, T>::operator-=(const Matrix<M, N, T>& rhs)
 template<size_t M, size_t N, typename T>
 Matrix<M, N, T>& Matrix<M, N, T>::operator*=(const Matrix<M, N, T>& rhs)
 {
-    MATRIX_CHECK_SQUARE;
+    __matrix_assert_square();
     Matrix<M, N, T> cpy = *this;
 
     for (size_t i = 0; i < M; i++)

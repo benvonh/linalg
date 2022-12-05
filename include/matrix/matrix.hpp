@@ -17,33 +17,30 @@
     #error "MATRIX_PRINT_PRECISION must be not be negative"
 #endif
 
-#define MATRIX_CHECK(expr, excp, msg) if (!(expr)) \
-throw excp(( \
-    std::ostringstream() << "Matrix::" << __func__ << "(...): " << msg << '\n' \
-).str())
+#define __matrix_assert(expr, except, msg) \
+        if (!(expr)) \
+        { \
+            std::ostringstream oss; \
+            oss << __PRETTY_FUNCTION__ << '\n' << msg; \
+            throw except(oss.str()); \
+        }
 
-#define MATRIX_CHECK_INDEX \
-MATRIX_CHECK( \
-    idx < M * N, \
-    std::out_of_range, \
-    "Index (" << idx << ") out of range for " \
-    "dimension (" << M << ", " << N << ")" \
-)
+#define __matrix_assert_index() \
+        __matrix_assert(idx < M * N, std::out_of_range, \
+            "Index (" << idx << ") out of range for " \
+            "dimension (" << M << ", " << N << ")" \
+        )
 
-#define MATRIX_CHECK_BOUNDS \
-MATRIX_CHECK( \
-    i < M && j < N, \
-    std::out_of_range, \
-    "Index (" << i << ", " << j << ") out of range for " \
-    "dimension (" << M << ", " << N << ")" \
-)
+#define __matrix_assert_bounds() \
+        __matrix_assert(i < M && j < N, std::out_of_range, \
+            "Index (" << i << ", " << j << ") out of range for " \
+            "dimension (" << M << ", " << N << ")" \
+        )
 
-#define MATRIX_CHECK_SQUARE \
-MATRIX_CHECK( \
-    M == N, \
-    std::logic_error, \
-    "Dimension (" << M << ", " << N << ") not a square matrix" \
-)
+#define __matrix_assert_square() \
+        __matrix_assert(M == N, std::logic_error, \
+            "Dimension (" << M << ", " << N << ") not a square matrix" \
+        )
 
 namespace linalg
 {
