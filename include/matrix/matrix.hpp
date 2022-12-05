@@ -18,33 +18,32 @@
 #endif
 
 #define MATRIX_CHECK(expr, excp, msg) if (!(expr)) \
-        throw excp(( \
-            std::ostringstream() << msg << \
-            " from function Matrix<M, N, T>::" << __FUNCTION__ << "(...)\n" \
-        ).str())
+throw excp(( \
+    std::ostringstream() << "Matrix::" << __func__ << "(...): " << msg << '\n' \
+).str())
 
 #define MATRIX_CHECK_INDEX \
-        MATRIX_CHECK( \
-            idx < M * N, \
-            std::out_of_range, \
-            "Index (" << idx << ") out of range for " \
-            "dimension (" << M << ", " << N << ")" \
-        )
+MATRIX_CHECK( \
+    idx < M * N, \
+    std::out_of_range, \
+    "Index (" << idx << ") out of range for " \
+    "dimension (" << M << ", " << N << ")" \
+)
 
 #define MATRIX_CHECK_BOUNDS \
-        MATRIX_CHECK( \
-            i < M && j < N, \
-            std::out_of_range, \
-            "Index (" << i << ", " << j << ") out of range for " \
-            "dimension (" << M << ", " << N << ")" \
-        )
+MATRIX_CHECK( \
+    i < M && j < N, \
+    std::out_of_range, \
+    "Index (" << i << ", " << j << ") out of range for " \
+    "dimension (" << M << ", " << N << ")" \
+)
 
 #define MATRIX_CHECK_SQUARE \
-        MATRIX_CHECK( \
-            M == N, \
-            std::logic_error, \
-            "Dimension (" << M << ", " << N << ") not a square matrix" \
-        )
+MATRIX_CHECK( \
+    M == N, \
+    std::logic_error, \
+    "Dimension (" << M << ", " << N << ") not a square matrix" \
+)
 
 namespace linalg
 {
