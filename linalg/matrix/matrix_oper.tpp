@@ -138,7 +138,7 @@ std::ostream& operator<<(std::ostream& os, const Matrix<M, N, T>& obj)
             }
         )
     );
-    long digits = static_cast<long>(max_num < 0);
+    long digits = static_cast<long>(max_num < 0) + 1;
 
     do { digits++; } while (max_num /= 10);
 
