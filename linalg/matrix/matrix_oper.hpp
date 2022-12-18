@@ -6,55 +6,62 @@
 namespace linalg
 {
 template<std::size_t M, std::size_t N, typename T>
-T& Matrix<M, N, T>::operator[](std::size_t idx)
+T&
+Matrix<M, N, T>::operator[](std::size_t idx)
 {
     __matrix_assert_index();
-    return m_Data[idx];
+    return Data[idx];
 }
 
 template<std::size_t M, std::size_t N, typename T>
-T& Matrix<M, N, T>::operator()(std::size_t i, std::size_t j)
+T&
+Matrix<M, N, T>::operator()(std::size_t i, std::size_t j)
 {
     __matrix_assert_bounds();
-    return m_Data[idx(i, j)];
+    return Data[idx(i, j)];
 }
 
 template<std::size_t M, std::size_t N, typename T>
-const T& Matrix<M, N, T>::operator[](std::size_t idx) const
+const T&
+Matrix<M, N, T>::operator[](std::size_t idx) const
 {
     __matrix_assert_index();
-    return m_Data[idx];
+    return Data[idx];
 }
 
 template<std::size_t M, std::size_t N, typename T>
-const T& Matrix<M, N, T>::operator()(std::size_t i, std::size_t j) const
+const T&
+Matrix<M, N, T>::operator()(std::size_t i, std::size_t j) const
 {
     __matrix_assert_bounds();
-    return m_Data[idx(i, j)];
+    return Data[idx(i, j)];
 }
 
 template<std::size_t M, std::size_t N, typename T>
-Matrix<M, N, T>& Matrix<M, N, T>::operator+=(const Matrix<M, N, T>& rhs)
+Matrix<M, N, T>&
+Matrix<M, N, T>::operator+=(const Matrix<M, N, T>& rhs)
 {
     for (std::size_t idx = 0; idx < M * N; idx++)
     {
-        m_Data[idx] += rhs[idx];
+        Data[idx] += rhs[idx];
     }
     return *this;
 }
 
 template<std::size_t M, std::size_t N, typename T>
-Matrix<M, N, T>& Matrix<M, N, T>::operator-=(const Matrix<M, N, T>& rhs)
+Matrix<M, N, T>&
+Matrix<M, N, T>::operator-=(const Matrix<M, N, T>& rhs)
 {
     for (std::size_t idx = 0; idx < M * N; idx++)
     {
-        m_Data[idx] -= rhs[idx];
+        Data[idx] -= rhs[idx];
     }
     return *this;
 }
 
 template<std::size_t M, std::size_t N, typename T>
-Matrix<M, M, T>& Matrix<M, N, T>::operator*=(const Matrix<M, M, T>& rhs)
+Matrix<M, N, T>&
+Matrix<M, N, T>::operator*=(const Matrix<N, N, T>& rhs)
 {
     Matrix<M, M, T> cpy = *this;
 
@@ -68,26 +75,54 @@ Matrix<M, M, T>& Matrix<M, N, T>::operator*=(const Matrix<M, M, T>& rhs)
             {
                 cel += cpy(i, k) * rhs(k, j);
             }
-            m_Data[idx(i, j)] = cel;
+            Data[idx(i, j)] = cel;
         }
     }
     return *this;
 }
 
 template<std::size_t M, std::size_t N, typename T>
-Matrix<M, N, T> operator+(Matrix<M, N, T> lhs, const Matrix<M, N, T>& rhs)
+Matrix<M, N, T>&
+Matrix<M, N, T>::operator*=(T rhs)
+{
+    for (std::size_t idx = 0; idx < M * N; idx++)
+    {
+        Data[idx] *= rhs;
+    }
+    return *this;
+}
+
+template<std::size_t M, std::size_t N, typename T>
+Matrix<M, N, T>
+operator+(Matrix<M, N, T> lhs, const Matrix<M, N, T>& rhs)
 {
     return lhs += rhs;
 }
 
 template<std::size_t M, std::size_t N, typename T>
-Matrix<M, N, T> operator-(Matrix<M, N, T> lhs, const Matrix<M, N, T>& rhs)
+Matrix<M, N, T>
+operator-(Matrix<M, N, T> lhs, const Matrix<M, N, T>& rhs)
 {
     return lhs -= rhs;
 }
 
+template<std::size_t M, std::size_t N, typename T>
+Matrix<M, N, T>
+operator*(Matrix<M, N, T> lhs, T rhs)
+{
+    return lhs *= rhs;
+}
+
+template<std::size_t M, std::size_t N, typename T>
+Matrix<M, N, T>
+operator*(T lhs, Matrix<M, N, T> rhs)
+{
+    return rhs *= lhs;
+}
+
 template<std::size_t M, std::size_t N, std::size_t K, typename T>
-Matrix<M, K, T> operator*(Matrix<M, N, T> lhs, const Matrix<N, K, T>& rhs)
+Matrix<M, K, T>
+operator*(Matrix<M, N, T> lhs, const Matrix<N, K, T>& rhs)
 {
     Matrix<M, K, T> mat;
 
@@ -108,7 +143,8 @@ Matrix<M, K, T> operator*(Matrix<M, N, T> lhs, const Matrix<N, K, T>& rhs)
 }
 
 template<std::size_t M, std::size_t N, typename T>
-bool operator==(const Matrix<M, N, T>& lhs, const Matrix<M, N, T>& rhs)
+bool
+operator==(const Matrix<M, N, T>& lhs, const Matrix<M, N, T>& rhs)
 {
     for (std::size_t idx = 0; idx < M * N; idx++)
     {
@@ -119,27 +155,20 @@ bool operator==(const Matrix<M, N, T>& lhs, const Matrix<M, N, T>& rhs)
 }
 
 template<std::size_t M, std::size_t N, typename T>
-bool operator!=(const Matrix<M, N, T>& lhs, const Matrix<M, N, T>& rhs)
+bool
+operator!=(const Matrix<M, N, T>& lhs, const Matrix<M, N, T>& rhs)
 {
     return !(lhs == rhs);
 }
 
 template<std::size_t M, std::size_t N, typename T>
-std::ostream& operator<<(std::ostream& os, const Matrix<M, N, T>& obj)
+std::ostream&
+operator<<(std::ostream& os, const Matrix<M, N, T>& obj)
 {
-    long max_num = static_cast<long>(
-        *std::max_element(
-            std::cbegin(obj.m_Data),
-            std::cend(obj.m_Data),
-            [](const T& a, const T& b) -> bool
-            {
-                return std::abs(a) < std::abs(b);
-            }
-        )
-    );
-    long digits = static_cast<long>(max_num < 0) + 1;
+    long max = static_cast<long>(obj.AbsMax());
+    long digits = static_cast<long>(max < 0) + 1L;
 
-    do { digits++; } while (max_num /= 10);
+    do { digits++; } while (max /= 10);
 
     long width = digits + MATRIX_PRINT_PRECISION + 1;
     os << std::setprecision(MATRIX_PRINT_PRECISION) << std::fixed;
@@ -156,6 +185,6 @@ std::ostream& operator<<(std::ostream& os, const Matrix<M, N, T>& obj)
     }
     return os;
 }
-};
+}
 
 #endif/*__MATRIX_OPER_HPP__*/
