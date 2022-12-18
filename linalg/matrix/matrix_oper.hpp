@@ -69,13 +69,13 @@ Matrix<M, N, T>::operator*=(const Matrix<N, N, T>& rhs)
     {
         for (std::size_t j = 0; j < N; j++)
         {
-            T cel = 0;
+            T cell = 0;
 
             for (std::size_t k = 0; k < N; k++)
             {
-                cel += cpy(i, k) * rhs(k, j);
+                cell += cpy(i, k) * rhs(k, j);
             }
-            Data[idx(i, j)] = cel;
+            Data[idx(i, j)] = cell;
         }
     }
     return *this;
@@ -130,13 +130,13 @@ operator*(Matrix<M, N, T> lhs, const Matrix<N, K, T>& rhs)
     {
         for (std::size_t k = 0; k < K; k++)
         {
-            T cel = 0;
+            T cell = 0;
 
             for (std::size_t j = 0; j < N; j++)
             {
-                cel += lhs(i, j) * rhs(j, k);
+                cell += lhs(i, j) * rhs(j, k);
             }
-            mat(i, k) = cel;
+            mat(i, k) = cell;
         }
     }
     return mat;

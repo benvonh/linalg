@@ -84,7 +84,7 @@ struct Matrix
 {
     T Data[M * N];
 
-    static inline constexpr Matrix<N, N, T> eye();
+    static inline Matrix<N, N, T> eye();
     static inline constexpr std::size_t idx(std::size_t i, std::size_t j);
 
     Matrix<1, N, T> GetRow(std::size_t i) const;
@@ -92,8 +92,10 @@ struct Matrix
     void SetRow(std::size_t i, const Matrix<1, N, T>& row);
     void SetCol(std::size_t j, const Matrix<M, 1, T>& col);
 
-    inline T Max() const;
-    inline T AbsMax() const;
+    T Max() const;
+    T AbsMax() const;
+    T Determinant() const;
+    Matrix<1, N, T> Product() const;
     Matrix<N, M, T> Transpose() const;
     std::pair<Matrix<N, N, T>, Matrix<N, N, T>> LU_Decomposition() const;
 

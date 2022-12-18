@@ -6,7 +6,7 @@
 namespace linalg
 {
 template<std::size_t M, std::size_t N, typename T>
-constexpr Matrix<N, N, T>
+Matrix<N, N, T>
 Matrix<M, N, T>::eye()
 {
     __matrix_assert_square();
@@ -94,6 +94,38 @@ Matrix<M, N, T>::AbsMax() const
             return std::abs(a) < std::abs(b);
         }
     );
+}
+
+template<std::size_t M, std::size_t N, typename T>
+T
+Matrix<M, N, T>::Determinant() const
+{
+    auto[L, U] = LU_Decomposition();
+    T det = U[0];
+    
+    for (std::size_t i = 1; i < N; i++)
+    {
+        det *= U(i, i);
+    }
+    return det;
+}
+
+template<std::size_t M, std::size_t N, typename T>
+Matrix<1, N, T>
+Matrix<M, N, T>::Product() const
+{
+    Matrix<1, N, T> mat;
+
+    for (std::size_t j = 0; j < N; j++)
+    {
+        mat[j] = Data[j];
+
+        for (std::size_t i = 1; i < M; i++)
+        {
+            mat[j] *= Data[idx(i, j)];
+        }
+    }
+    return mat;
 }
 
 template<std::size_t M, std::size_t N, typename T>
