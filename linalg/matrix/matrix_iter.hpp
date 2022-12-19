@@ -1,3 +1,13 @@
+/**
+ * @file matrix_iter.hpp
+ * @author Benjamin von Snarski (benjaminvonsnarski@gmail.com)
+ * @brief Header file for matrix iterator definition.
+ * @version 0.1
+ * @date 19-12-2022
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #ifndef __MATRIX_ITER_HPP__
 #define __MATRIX_ITER_HPP__
 

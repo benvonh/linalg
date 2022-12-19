@@ -1,3 +1,13 @@
+/**
+ * @file matrix_impl.hpp
+ * @author Benjamin von Snarski (benjaminvonsnarski@gmail.com)
+ * @brief Header file for matrix implementation.
+ * @version 0.1
+ * @date 19-12-2022
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #ifndef __MATRIX_IMPL_HPP__
 #define __MATRIX_IMPL_HPP__
 
@@ -20,14 +30,14 @@ Matrix<M, N, T>::eye()
 }
 
 template<std::size_t M, std::size_t N, typename T>
-constexpr std::size_t
+std::size_t
 Matrix<M, N, T>::idx(std::size_t i, std::size_t j)
 {
     return j + i * N;
 }
 
 template<std::size_t M, std::size_t N, typename T>
-Matrix<1, N, T>
+Array<N, T>
 Matrix<M, N, T>::GetRow(std::size_t i) const
 {
     Matrix<1, N, T> row;
@@ -40,7 +50,7 @@ Matrix<M, N, T>::GetRow(std::size_t i) const
 }
 
 template<std::size_t M, std::size_t N, typename T>
-Matrix<M, 1, T>
+Vector<M, T>
 Matrix<M, N, T>::GetCol(std::size_t j) const
 {
     Matrix<M, 1, T> col;
@@ -54,7 +64,7 @@ Matrix<M, N, T>::GetCol(std::size_t j) const
 
 template<std::size_t M, std::size_t N, typename T>
 void
-Matrix<M, N, T>::SetRow(std::size_t i, const Matrix<1, N, T>& row)
+Matrix<M, N, T>::SetRow(std::size_t i, const Array<N, T>& row)
 {
     for (std::size_t idxr = 0, idx = i * N; idxr < N; idxr++, idx++)
     {
@@ -64,7 +74,7 @@ Matrix<M, N, T>::SetRow(std::size_t i, const Matrix<1, N, T>& row)
 
 template<std::size_t M, std::size_t N, typename T>
 void
-Matrix<M, N, T>::SetCol(std::size_t j, const Matrix<M, 1, T>& col)
+Matrix<M, N, T>::SetCol(std::size_t j, const Vector<M, T>& col)
 {
     for (std::size_t idxc = 0, idx = j; idxc < M; idxc++, idx += N)
     {
@@ -111,7 +121,7 @@ Matrix<M, N, T>::Determinant() const
 }
 
 template<std::size_t M, std::size_t N, typename T>
-Matrix<1, N, T>
+Array<N, T>
 Matrix<M, N, T>::Product() const
 {
     Matrix<1, N, T> mat;

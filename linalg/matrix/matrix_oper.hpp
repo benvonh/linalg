@@ -1,3 +1,13 @@
+/**
+ * @file matrix_oper.hpp
+ * @author Benjamin von Snarski (benjaminvonsnarski@gmail.com)
+ * @brief Header file for overloaded matrix operators.
+ * @version 0.1
+ * @date 19-12-2022
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #ifndef __MATRIX_OPER_HPP__
 #define __MATRIX_OPER_HPP__
 
@@ -22,7 +32,7 @@ Matrix<M, N, T>::operator()(std::size_t i, std::size_t j)
 }
 
 template<std::size_t M, std::size_t N, typename T>
-const T&
+T
 Matrix<M, N, T>::operator[](std::size_t idx) const
 {
     __matrix_assert_index();
@@ -30,7 +40,7 @@ Matrix<M, N, T>::operator[](std::size_t idx) const
 }
 
 template<std::size_t M, std::size_t N, typename T>
-const T&
+T
 Matrix<M, N, T>::operator()(std::size_t i, std::size_t j) const
 {
     __matrix_assert_bounds();
