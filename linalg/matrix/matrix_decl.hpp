@@ -4,9 +4,9 @@
  * @brief Header file for matrix declaration.
  * @version 0.1
  * @date 19-12-2022
- * 
+ *
  * @copyright Copyright (c) 2022
- * 
+ *
  */
 #ifndef __MATRIX_DECL_HPP__
 #define __MATRIX_DECL_HPP__
@@ -31,7 +31,7 @@
 
 #ifndef MATRIX_OPTIMISE
 #define __matrix_assert(expr, except, msg) \
-        if constexpr(!(expr)) \
+        if (!(expr)) \
         { \
             std::ostringstream oss; \
             oss << __PRETTY_FUNCTION__ << ':' << msg; \
@@ -105,16 +105,16 @@ struct Matrix
 
     /**
      * @brief Creates an identity matrix.
-     * 
+     *
      * Must be a square matrix.
-     * 
+     *
      * @return Identity matrix
      */
     static inline Matrix<N, N, T> eye();
 
     /**
      * @brief Returns the index for the position i, j.
-     * 
+     *
      * @param i Row
      * @param j Column
      * @return Matrix data index
@@ -123,7 +123,7 @@ struct Matrix
 
     /**
      * @brief Returns the array at row i.
-     * 
+     *
      * @param i Row
      * @return Array
      */
@@ -131,7 +131,7 @@ struct Matrix
 
     /**
      * @brief Returns the vector at column j.
-     * 
+     *
      * @param j Column
      * @return Vector
      */
@@ -139,7 +139,7 @@ struct Matrix
 
     /**
      * @brief Copies the array into row i.
-     * 
+     *
      * @param i Row
      * @param row Array
      */
@@ -147,7 +147,7 @@ struct Matrix
 
     /**
      * @brief Copies the vector into column j.
-     * 
+     *
      * @param j Column
      * @param col Vector
      */
@@ -155,51 +155,51 @@ struct Matrix
 
     /**
      * @brief Returns the largest value in the matrix.
-     * 
+     *
      * @return Max
      */
     T Max() const;
 
     /**
      * @brief Returns the absolute largest value in the matrix.
-     * 
+     *
      * @return Absolute max
      */
     T AbsMax() const;
 
     /**
      * @brief Returns the determinant of the matrix.
-     * 
+     *
      * Uses LU decomposition. Must be a square matrix.
-     * 
+     *
      * @return Determinant
      */
     T Determinant() const;
 
     /**
      * @brief Returns an array of the products of each column.
-     * 
+     *
      * @return Array of product
      */
     Array<N, T> Product() const;
-    
+
     /**
      * @brief Returns the transpose of the matrix.
-     * 
+     *
      * @return Transpose of matrix
      */
     Matrix<N, M, T> Transpose() const;
 
     /**
      * @brief Applies LU decomposition and returns the lower and upper matrices.
-     * 
+     *
      * @return Pair of lower and upper matrix
      */
     std::pair<Matrix<N, N, T>, Matrix<N, N, T>> LU_Decomposition() const;
 
     /**
      * @brief Accesses the matrix data at index.
-     * 
+     *
      * @param idx Index
      * @return Matrix data
      */
@@ -207,7 +207,7 @@ struct Matrix
 
     /**
      * @brief Accesses the matrix at position i, j.
-     * 
+     *
      * @param i Row
      * @param j Column
      * @return Matrix data
@@ -216,7 +216,7 @@ struct Matrix
 
     /**
      * @brief Returns the matrix data at index.
-     * 
+     *
      * @param idx Index
      * @return Matrix data
      */
@@ -224,7 +224,7 @@ struct Matrix
 
     /**
      * @brief Returns the matrix data at position i, j.
-     * 
+     *
      * @param i Row
      * @param j Column
      * @return Matrix data
@@ -233,7 +233,7 @@ struct Matrix
 
     /**
      * @brief The plus-assignment operator.
-     * 
+     *
      * @param rhs Right-hand-side matrix
      * @return This
      */
@@ -241,7 +241,7 @@ struct Matrix
 
     /**
      * @brief The minus-assignment operator.
-     * 
+     *
      * @param rhs Right-hand-side matrix
      * @return This
      */
@@ -249,7 +249,7 @@ struct Matrix
 
     /**
      * @brief The multiply-assignment operator.
-     * 
+     *
      * @param rhs Right-hand-side matrix
      * @return This
      */
@@ -257,7 +257,7 @@ struct Matrix
 
     /**
      * @brief The multiply-assignment operator.
-     * 
+     *
      * @param rhs Right-hand-side scalar
      * @return This
      */
@@ -265,7 +265,7 @@ struct Matrix
 
     /**
      * @brief The plus operator.
-     * 
+     *
      * @param lhs Left-hand-side matrix
      * @param rhs Right-hand-side matrix
      * @return Sum of matrices
@@ -274,7 +274,7 @@ struct Matrix
 
     /**
      * @brief The minus operator.
-     * 
+     *
      * @param lhs Left-hand-side matrix
      * @param rhs Right-hand-side matrix
      * @return Difference of matrices
@@ -283,7 +283,7 @@ struct Matrix
 
     /**
      * @brief The multiply operator
-     * 
+     *
      * @param lhs Left-hand-side matrix
      * @param rhs Right-hand-side scalar
      * @return Scaled matrix
@@ -292,7 +292,7 @@ struct Matrix
 
     /**
      * @brief The multiply operator.
-     * 
+     *
      * @param lhs Left-hand-side scalar
      * @param rhs Right-hand-side matrix
      * @return Scaled matrix
@@ -301,7 +301,7 @@ struct Matrix
 
     /**
      * @brief The equality operator.
-     * 
+     *
      * @param lhs Left-hand-side matrix
      * @param rhs Right-hand-side matrix
      * @return True if equal, false otherwise
@@ -310,7 +310,7 @@ struct Matrix
 
     /**
      * @brief The inequality operator.
-     * 
+     *
      * @param lhs Left-hand-side matrix
      * @param rhs Right-hand-side matrix
      * @return True if not equal, false otherwise
@@ -319,9 +319,9 @@ struct Matrix
 
     /**
      * @brief The stream insertion overload.
-     * 
+     *
      * Outputs the matrix data to the stream with pretty formatting.
-     * 
+     *
      * @param os Output stream
      * @param obj Matrix
      * @return Output stream
@@ -338,7 +338,7 @@ struct Matrix
         using iterator_category = std::forward_iterator_tag;
 
         Iterator(T* ptr);
-        
+
         T* operator->();
         T& operator*() const;
         Iterator operator++(T);
@@ -352,28 +352,28 @@ struct Matrix
 
     /**
      * @brief The iterator pointing to the last index + 1 of the matrix data.
-     * 
+     *
      * @return Iterator
      */
     Iterator end();
 
     /**
      * @brief The iterator pointing to the first index of the matrix data.
-     * 
+     *
      * @return Iterator
      */
     Iterator begin();
 
     /**
      * @brief The iterator pointing to the last index + 1 of the matrix data.
-     * 
+     *
      * @return Iterator
      */
     const Iterator cend() const;
 
     /**
      * @brief The iterator pointing to the first index of the matrix data.
-     * 
+     *
      * @return Iterator
      */
     const Iterator cbegin() const;

@@ -1,10 +1,8 @@
 #include "../linalg/linalg.hpp"
 
-using namespace linalg;
-
 int main()
 {
-    Matrix<3, 3, long> A
+    linalg::Matrix<3, 3> A
     {
         1, 2, 3,
         4, 5, 6,
